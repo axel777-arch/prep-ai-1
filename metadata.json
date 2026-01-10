@@ -1,0 +1,8 @@
+{
+  "name": "PrepAI - College Prep Suite",
+  "description": "An all-in-one college preparation platform for high school students featuring AI-powered subject learning, writing tools, and opportunity tracking.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
