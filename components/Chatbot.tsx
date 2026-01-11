@@ -1,4 +1,4 @@
-
+// Chatbot.tsx
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, User, Bot, X, MessageSquare, Loader2 } from 'lucide-react';
 import { ChatMessage } from '../types';
@@ -30,13 +30,24 @@ const Chatbot: React.FC = () => {
     setIsTyping(true);
 
     try {
+      // Send prompt and chat history to serverless function
       const history = messages.map(m => ({ role: m.role, text: m.text }));
       const response = await chatWithGemini(input, history);
-      const modelMsg: ChatMessage = { role: 'model', text: response || 'Sorry, I couldn’t process that.', timestamp: new Date() };
+
+      const modelMsg: ChatMessage = {
+        role: 'model',
+        text: response || 'Sorry, I couldn’t process that.',
+        timestamp: new Date()
+      };
+
       setMessages(prev => [...prev, modelMsg]);
     } catch (error) {
       console.error(error);
-      setMessages(prev => [...prev, { role: 'model', text: 'Error connecting to AI. Please check your API key.', timestamp: new Date() }]);
+      setMessages(prev => [...prev, {
+        role: 'model',
+        text: 'Error connecting to AI. Please check your server deployment.',
+        timestamp: new Date()
+      }]);
     } finally {
       setIsTyping(false);
     }
@@ -44,6 +55,7 @@ const Chatbot: React.FC = () => {
 
   return (
     <>
+      {/* Open Chatbot Button */}
       <button
         onClick={() => setIsOpen(true)}
         className="fixed bottom-6 right-6 w-14 h-14 bg-blue-600 text-white rounded-full shadow-2xl hover:bg-blue-700 flex items-center justify-center transition-all z-40 hover:scale-110 active:scale-95"
@@ -51,8 +63,11 @@ const Chatbot: React.FC = () => {
         <MessageSquare size={24} />
       </button>
 
+      {/* Chatbot Window */}
       {isOpen && (
         <div className="fixed bottom-6 right-6 w-96 max-w-[calc(100vw-3rem)] h-[600px] bg-white dark:bg-slate-900 rounded-3xl shadow-2xl flex flex-col z-50 overflow-hidden border border-slate-200 dark:border-slate-800 animate-in slide-in-from-bottom-10 duration-300">
+          
+          {/* Header */}
           <div className="bg-blue-600 p-5 text-white flex items-center justify-between">
             <div className="flex items-center">
               <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center mr-3">
@@ -71,6 +86,7 @@ const Chatbot: React.FC = () => {
             </button>
           </div>
 
+          {/* Messages */}
           <div className="flex-1 overflow-y-auto p-5 space-y-4 bg-slate-50 dark:bg-slate-950">
             {messages.map((m, i) => (
               <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
@@ -94,6 +110,7 @@ const Chatbot: React.FC = () => {
             <div ref={messagesEndRef} />
           </div>
 
+          {/* Input */}
           <div className="p-4 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 flex items-center space-x-3">
             <input
               type="text"
