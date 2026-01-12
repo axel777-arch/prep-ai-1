@@ -1,8 +1,23 @@
 import React from 'react';
-import { 
-  Home, BookOpen, Calendar, ChevronLeft, ChevronRight, 
-  Binary, Atom, FlaskConical, ScrollText, Moon, Sun, Wand2, ShieldCheck, LogOut,
-  Microscope, Cpu, BookCopy, SearchCheck, ClipboardList
+import {
+  Home,
+  BookOpen,
+  Calendar,
+  Binary,
+  Atom,
+  FlaskConical,
+  ScrollText,
+  Moon,
+  Sun,
+  Wand2,
+  ShieldCheck,
+  LogOut,
+  Microscope,
+  Cpu,
+  BookCopy,
+  SearchCheck,
+  ClipboardList,
+  Menu
 } from 'lucide-react';
 import { Page } from '../types';
 
@@ -74,34 +89,31 @@ const Sidebar: React.FC<SidebarProps> = ({
           </button>
         ) : (
           <button
-            onClick={() => onNavigate(Page.HOME)}
+            onClick={() => setIsPinned(true)}
             className="w-full flex justify-center"
+            aria-label="Open sidebar"
           >
-            <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white">
-              <Binary size={22} />
-            </div>
+            <Menu size={26} className="text-slate-700 dark:text-slate-300" />
           </button>
         )}
 
-        {/* Toggle Button */}
-        <button
-          onClick={() => setIsPinned(!isPinned)}
-          className="p-1.5 rounded-lg bg-slate-50 dark:bg-slate-800
-                     text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-        >
-          {isOpen ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
-        </button>
+        {isOpen && (
+          <button
+            onClick={() => setIsPinned(false)}
+            className="p-1.5 rounded-lg bg-slate-50 dark:bg-slate-800
+                       text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+            aria-label="Collapse sidebar"
+          >
+            <Binary size={18} />
+          </button>
+        )}
       </div>
 
       {/* Navigation */}
       <div className="flex-1 overflow-y-auto p-3">
         <NavItem icon={Home} label="Dashboard" page={Page.HOME} active={currentPage === Page.HOME} />
 
-        {isOpen && (
-          <div className="mt-6 mb-2 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">
-            Curriculum
-          </div>
-        )}
+        {isOpen && <Section title="Curriculum" />}
         <NavItem icon={Binary} label="Math" page={Page.MATH} active={currentPage === Page.MATH} />
         <NavItem icon={Atom} label="Physics" page={Page.PHYSICS} active={currentPage === Page.PHYSICS} />
         <NavItem icon={FlaskConical} label="Chemistry" page={Page.CHEMISTRY} active={currentPage === Page.CHEMISTRY} />
@@ -110,22 +122,14 @@ const Sidebar: React.FC<SidebarProps> = ({
         <NavItem icon={BookCopy} label="Literature" page={Page.LIT} active={currentPage === Page.LIT} />
         <NavItem icon={ScrollText} label="History" page={Page.HISTORY} active={currentPage === Page.HISTORY} />
 
-        {isOpen && (
-          <div className="mt-6 mb-2 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">
-            Prep Tools
-          </div>
-        )}
+        {isOpen && <Section title="Prep Tools" />}
         <NavItem icon={ShieldCheck} label="Essay Feedback" page={Page.ESSAY_FEEDBACK} active={currentPage === Page.ESSAY_FEEDBACK} />
         <NavItem icon={Wand2} label="Essay Writer" page={Page.ESSAY_WRITER} active={currentPage === Page.ESSAY_WRITER} />
         <NavItem icon={BookOpen} label="Smart Review" page={Page.SMART_REVIEW} active={currentPage === Page.SMART_REVIEW} />
         <NavItem icon={SearchCheck} label="College Matcher" page={Page.COLLEGE_MATCHER} active={currentPage === Page.COLLEGE_MATCHER} />
         <NavItem icon={ClipboardList} label="Requirements" page={Page.COLLEGE_REQUIREMENTS} active={currentPage === Page.COLLEGE_REQUIREMENTS} />
 
-        {isOpen && (
-          <div className="mt-6 mb-2 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">
-            Tracking
-          </div>
-        )}
+        {isOpen && <Section title="Tracking" />}
         <NavItem icon={Calendar} label="Opportunities" page={Page.OPPORTUNITIES} active={currentPage === Page.OPPORTUNITIES} />
       </div>
 
@@ -138,8 +142,8 @@ const Sidebar: React.FC<SidebarProps> = ({
             ${!isOpen && 'justify-center px-0'}
           `}
         >
-          {theme === 'light' ? <Moon size={20} className={isOpen ? 'mr-3' : ''} /> : <Sun size={20} className={isOpen ? 'mr-3' : ''} />}
-          {isOpen && <span>{theme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>}
+          {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+          {isOpen && <span className="ml-3">{theme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>}
         </button>
 
         <button
@@ -149,12 +153,19 @@ const Sidebar: React.FC<SidebarProps> = ({
             ${!isOpen && 'justify-center px-0'}
           `}
         >
-          <LogOut size={20} className={isOpen ? 'mr-3' : ''} />
-          {isOpen && <span>Sign Out</span>}
+          <LogOut size={20} />
+          {isOpen && <span className="ml-3">Sign Out</span>}
         </button>
       </div>
     </div>
   );
 };
+
+/* Section label */
+const Section = ({ title }: { title: string }) => (
+  <div className="mt-6 mb-2 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">
+    {title}
+  </div>
+);
 
 export default Sidebar;
