@@ -3,7 +3,6 @@ import {
   Home,
   BookOpen,
   Calendar,
-  Binary,
   Atom,
   FlaskConical,
   ScrollText,
@@ -17,7 +16,8 @@ import {
   BookCopy,
   SearchCheck,
   ClipboardList,
-  Menu
+  Menu,
+  ChevronLeft
 } from 'lucide-react';
 import { Page } from '../types';
 
@@ -79,32 +79,24 @@ const Sidebar: React.FC<SidebarProps> = ({
       `}
     >
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-slate-100 dark:border-slate-800 h-16">
-        {isOpen ? (
-          <button
-            onClick={() => onNavigate(Page.HOME)}
-            className="text-xl font-bold text-blue-600 dark:text-blue-500"
-          >
-            PrepPath
-          </button>
-        ) : (
+      <div className="flex items-center justify-center p-4 border-b border-slate-100 dark:border-slate-800 h-16">
+        {!isOpen ? (
+          /* Collapsed: Hamburger */
           <button
             onClick={() => setIsPinned(true)}
-            className="w-full flex justify-center"
             aria-label="Open sidebar"
+            className="flex items-center justify-center"
           >
             <Menu size={26} className="text-slate-700 dark:text-slate-300" />
           </button>
-        )}
-
-        {isOpen && (
+        ) : (
+          /* Expanded: Left Arrow */
           <button
             onClick={() => setIsPinned(false)}
-            className="p-1.5 rounded-lg bg-slate-50 dark:bg-slate-800
-                       text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
             aria-label="Collapse sidebar"
+            className="flex items-center justify-center"
           >
-            <Binary size={18} />
+            <ChevronLeft size={26} className="text-slate-700 dark:text-slate-300" />
           </button>
         )}
       </div>
@@ -114,7 +106,6 @@ const Sidebar: React.FC<SidebarProps> = ({
         <NavItem icon={Home} label="Dashboard" page={Page.HOME} active={currentPage === Page.HOME} />
 
         {isOpen && <Section title="Curriculum" />}
-        <NavItem icon={Binary} label="Math" page={Page.MATH} active={currentPage === Page.MATH} />
         <NavItem icon={Atom} label="Physics" page={Page.PHYSICS} active={currentPage === Page.PHYSICS} />
         <NavItem icon={FlaskConical} label="Chemistry" page={Page.CHEMISTRY} active={currentPage === Page.CHEMISTRY} />
         <NavItem icon={Microscope} label="Biology" page={Page.BIOLOGY} active={currentPage === Page.BIOLOGY} />
@@ -161,7 +152,6 @@ const Sidebar: React.FC<SidebarProps> = ({
   );
 };
 
-/* Section label */
 const Section = ({ title }: { title: string }) => (
   <div className="mt-6 mb-2 px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">
     {title}
