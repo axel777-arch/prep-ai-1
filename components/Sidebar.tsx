@@ -79,25 +79,34 @@ const Sidebar: React.FC<SidebarProps> = ({
       `}
     >
       {/* Header */}
-      <div className="flex items-center justify-center p-4 border-b border-slate-100 dark:border-slate-800 h-16">
+      <div className="flex items-center px-4 border-b border-slate-100 dark:border-slate-800 h-16">
         {!isOpen ? (
-          /* Collapsed: Hamburger */
+          /* Collapsed: Hamburger centered */
           <button
             onClick={() => setIsPinned(true)}
             aria-label="Open sidebar"
-            className="flex items-center justify-center"
+            className="mx-auto"
           >
             <Menu size={26} className="text-slate-700 dark:text-slate-300" />
           </button>
         ) : (
-          /* Expanded: Left Arrow */
-          <button
-            onClick={() => setIsPinned(false)}
-            aria-label="Collapse sidebar"
-            className="flex items-center justify-center"
-          >
-            <ChevronLeft size={26} className="text-slate-700 dark:text-slate-300" />
-          </button>
+          /* Expanded: PrepPath left, Arrow right */
+          <>
+            <button
+              onClick={() => onNavigate(Page.HOME)}
+              className="text-xl font-bold text-blue-600 dark:text-blue-500 hover:opacity-80 transition-opacity"
+            >
+              PrepPath
+            </button>
+
+            <button
+              onClick={() => setIsPinned(false)}
+              aria-label="Collapse sidebar"
+              className="ml-auto"
+            >
+              <ChevronLeft size={26} className="text-slate-700 dark:text-slate-300" />
+            </button>
+          </>
         )}
       </div>
 
